@@ -6,7 +6,7 @@ use Illuminate\Http\JsonResponse;
 
 class BaseContoller extends Controller
 {
-    protected function successResponse(string $message , $data = null): JsonResponse{
+    protected function successResponse(string $message , $data = null , $status = 200): JsonResponse{
 
         $response = [
             'success' => true , 
@@ -14,10 +14,10 @@ class BaseContoller extends Controller
             'data' => $data 
         ] ; 
 
-        return response()->json($response , 200) ; 
+        return response()->json($response , $status) ; 
     }
 
-    protected function errorResponse(string $message , $error = null ): JsonResponse{
+    protected function errorResponse(string $message , $error = null , $status = 200): JsonResponse{
 
         $response = [
             'success' => false , 
@@ -25,6 +25,6 @@ class BaseContoller extends Controller
             'error' => $error 
         ] ; 
 
-        return response()->json($response , 200) ; 
+        return response()->json($response , $status) ; 
     }
 }

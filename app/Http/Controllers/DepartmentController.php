@@ -48,7 +48,7 @@ class DepartmentController extends BaseContoller
                 return $this->errorResponse(' Fail to create departmet . Try again ');
             }
 
-            return $this->successResponse('Department create successfully', $department);
+            return $this->successResponse('Department created successfully', $department);
         }
         return $this->errorResponse('No such school ');
     }
@@ -64,7 +64,7 @@ class DepartmentController extends BaseContoller
 
         if ($department) {
             $department->update($validated);
-            return $this->successResponse('department updated successfully', $department);
+            return $this->successResponse('Department updated successfully', $department);
         }
 
         return $this->errorResponse('department not found');
