@@ -7,6 +7,10 @@ use App\Http\Controllers\BaseContoller;
 use App\Http\Requests\DepartmentRequest;
 use App\Models\School;
 
+
+/**
+ * Summary of DepartmentController
+ */
 class DepartmentController extends BaseContoller
 {
     /**
@@ -14,7 +18,7 @@ class DepartmentController extends BaseContoller
      */
     public function index()
     {
-        $departments = Department::with('school')->get();
+        $departments = Department::with('school')->latest()->get();
 
         $departments = $departments->map(function ($department) {
             return [
@@ -86,5 +90,11 @@ class DepartmentController extends BaseContoller
         $department->delete();
 
         return $this->successResponse('Department deleted successfully');
+    }
+
+
+    public function count()
+    {
+        return $this->successResponse('Total departments', Department::count('id'), 200);
     }
 }

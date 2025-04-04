@@ -75,4 +75,9 @@ class SchoolController extends  BaseContoller
         $school->delete();
         return $this->successResponse('School deleted successfully');
     }
+
+    public function count()
+    {
+        return $this->successResponse('Total students', School::count('id'), 200);
+    }
 }

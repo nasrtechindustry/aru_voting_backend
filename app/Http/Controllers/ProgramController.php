@@ -18,7 +18,7 @@ class ProgramController extends BaseContoller
         $programs = Program::with(['department', 'department.school'])->latest()->get();
 
 
-        $programs = $programs->map(function ($program) {
+        $programs = $programs->map(function ($program): array {
             return  [
                 'id' => $program->id,
                 'program_name' => $program->program_name,
@@ -32,7 +32,7 @@ class ProgramController extends BaseContoller
             ];
         });
 
-        return $this->successResponse('All programs fetched succeffully', $programs);
+        return $this->successResponse('All programs fetched successfully', $programs);
     }
 
 
@@ -111,5 +111,10 @@ class ProgramController extends BaseContoller
         $program->delete();
 
         return $this->successResponse('Program deleted successully', status: 201);
+    }
+
+    public function count()
+    {
+        return $this->successResponse('Total programs', Program::count('id'), 200);
     }
 }
