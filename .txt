@@ -1,1 +1,13 @@
-username=if0_38530485!
+Cpanel URL: http://cpanel.infinityfree.com
+Username:   if0_38530485
+Password:   q0nzs6kj
+
+FTP Username:  if0_38530485
+FTP Password:  q0nzs6kj
+FTP HostName:  ftp.infinityfree.com
+
+MySQL Host Name: sql112.infinityfree.com
+MySQL Password:  q0nzs6kj
+MySQL UserName:  if0_38530485
+
+https://filemanager.ai/new/#/c/_/_/eyJ0IjoiZnRwIiwiYyI6eyJ2IjpudWxsLCJvIjpudWxsLCJzIjpudWxsLCJpIjpudWxsfX0%3D

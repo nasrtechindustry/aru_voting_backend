@@ -6,17 +6,15 @@ use App\Imports\StudentImport;
 use App\Models\User;
 use App\Models\Program;
 use App\Models\Student;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Controllers\BaseContoller;
 use App\Http\Requests\StudentImportRequest;
 use App\Http\Resources\StudentResource;
 use App\Http\Requests\StudentStoreRequest;
 use App\Http\Requests\StudentUpdateRequest;
 use Maatwebsite\Excel\Facades\Excel;
 
-class StudentController extends BaseContoller
+class StudentController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -90,26 +88,20 @@ class StudentController extends BaseContoller
 
     public function import(StudentImportRequest $request)
     {
-        // Validate the request
         $validated = $request->validated();
 
-        // Check if the file is present
         if (!$request->hasFile('students') || !$request->file('students')->isValid()) {
             return $this->errorResponse('No valid file uploaded.');
         }
 
-        // Get the file from the request
         $file = $request->file('students');
 
-        // dd($validated) ;
 
         try {
-            // Perform the import using the StudentImport class
             Excel::import(new StudentImport($validated['program_id'], $validated['start_date'], $validated['end_date']), $file);
 
             return $this->successResponse('Students imported successfully');
         } catch (\Exception $e) {
-            // Catch any exception and return an error response
             return $this->errorResponse('An error occurred while importing students: ' . $e->getMessage());
         }
     }

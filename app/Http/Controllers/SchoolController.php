@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\SchoolRequest;
 use App\Http\Controllers\BaseContoller;
 
-class SchoolController extends  BaseContoller
+class SchoolController extends  BaseController
 
 {
     /**

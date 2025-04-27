@@ -11,7 +11,7 @@ use App\Models\School;
 /**
  * Summary of DepartmentController
  */
-class DepartmentController extends BaseContoller
+class DepartmentController extends BaseController
 {
     /**
      * Display a listing of the resource.

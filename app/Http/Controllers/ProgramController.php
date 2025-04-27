@@ -8,7 +8,7 @@ use App\Http\Requests\ProgramAddRequest;
 use App\Models\Department;
 use App\Models\Program;
 
-class ProgramController extends BaseContoller
+class ProgramController extends BaseController
 {
     /**
      * Display a listing of the resource.

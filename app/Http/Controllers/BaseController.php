@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 
-class BaseContoller extends Controller
+class BaseController extends Controller
 {
     protected function successResponse(string $message , $data = null , $status = 200): JsonResponse{
 
