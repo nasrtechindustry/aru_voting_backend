@@ -4,7 +4,9 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Program;
+use App\Models\Role;
 use App\Models\Student;
+use App\Models\User_Role;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -19,6 +21,8 @@ class StudentSeeder extends Seeder
 
         $program = Program::where('program_acronym' , 'CSN')->first();
 
+        $roles = Role::all() ; 
+
         $user = User::create([
             'first_name' => 'nasr',
             'middle_name' => 'hassan',
@@ -27,6 +31,15 @@ class StudentSeeder extends Seeder
             'phone' => '0620656604',
             'password' => 'Hassan14@',
         ]);
+
+        $role = $roles->where('role_name' , 'Voter')->first();
+
+        if($role) {
+            User_Role::create([
+                'user_id' => $user->id ,
+                'role_id' => $role->id
+            ]);
+        }
 
         $students = [
             [

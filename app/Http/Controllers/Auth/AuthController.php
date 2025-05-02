@@ -19,6 +19,7 @@ class AuthController extends BaseController
         $password = $validated['password'];
 
         // 1. Handle users with roles (admin, leader, etc.)
+
         if ($request->has('role')) {
             $user = User::where('email', $username)->first();
 
@@ -46,7 +47,7 @@ class AuthController extends BaseController
         }
 
         $studentUser = $student->user;
-        $studentUser['role'] = 'voter';
+        $studentUser['role'] = User_Role::where('user_id', $studentUser->id)->first()->role->role_name ?? 'Voter';
         $studentUser['token'] = $studentUser->createToken('voting_auth')->plainTextToken;
 
         return $this->successResponse('Login successfully', $studentUser, 201);
@@ -54,12 +55,10 @@ class AuthController extends BaseController
 
     public function logout()
     {
-        auth()->user()->tokens->each(function ($token) {
-            $token->delete();
-        });
-
+        auth()->user()->currentAccessToken()->delete();
         return $this->successResponse('Logged out successfully.');
     }
+
 
     public function check_email(Request $request)
     {
@@ -70,5 +69,16 @@ class AuthController extends BaseController
         } else {
             return response()->json(['exixts' => false,], 404);
         }
+    }
+
+    public function me(Request $request)
+    {
+        $user = $request->user();
+
+        $userRole = User_Role::where('user_id', $user->id)->with('role')->first();
+
+        $user['role'] = $userRole?->role->role_name ?? "Voter";
+
+        return $this->successResponse('Authenticated user', $user);
     }
 }
