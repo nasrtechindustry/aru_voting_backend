@@ -15,11 +15,11 @@ return [
     |
     */
 
-    'paths' => ['api/*' , 'sanctum/csrf-cookie'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:5173' , 'https://aruvotingbackend-production.up.railway.app'],
+    'allowed_origins' => ['http://localhost:5173', 'https://www.nasrtech.store'],
 
     'allowed_origins_patterns' => [],
 
