@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StudentChangePassword;
+use App\Http\Requests\StudentdChangeProfileRequest;
 use App\Imports\StudentImport;
 use App\Models\User;
 use App\Models\Program;
@@ -12,6 +14,9 @@ use App\Http\Requests\StudentImportRequest;
 use App\Http\Resources\StudentResource;
 use App\Http\Requests\StudentStoreRequest;
 use App\Http\Requests\StudentUpdateRequest;
+use App\Models\Role;
+use App\Models\User_Role;
+use Illuminate\Http\Client\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
 class StudentController extends BaseController
@@ -26,7 +31,7 @@ class StudentController extends BaseController
             'program:id,program_name,department_id',
             'program.department:id,department_name,school_id',
             'program.department.school:id,school_name',
-            'user:id,first_name,middle_name,last_name,email,phone'
+            'user:id,first_name,middle_name,last_name,email,phone,profile'
         ])->latest()->get();
 
         return $this->successResponse('All students fetched successfully', StudentResource::collection($students));
@@ -42,6 +47,7 @@ class StudentController extends BaseController
 
             $validated = $request->validated();
 
+
             DB::beginTransaction();
 
 
@@ -54,8 +60,20 @@ class StudentController extends BaseController
                 'password' => Hash::make('TANZANIA'),
             ]);
 
+
             if (!$user) {
                 throw new \Exception('Fail to create user');
+            }
+
+            $role = Role::where('role_name', 'Voter')->first();
+
+            $setRole = User_Role::create([
+                'user_id' => $user->id,
+                'role_id' => $role->id
+            ]);
+
+            if (!$setRole) {
+                throw new \Exception('Fail to insert the role for student');
             }
 
             $program = Program::find($validated['program_id']);
@@ -66,6 +84,7 @@ class StudentController extends BaseController
 
             $student = Student::create([
                 'program_id' => $validated['program_id'],
+                'year_id' => $validated['year'],
                 'user_id' => $user->id,
                 'registration_number' => $validated['registration_number'],
                 'start_date' => $validated['start_date'],
@@ -75,6 +94,9 @@ class StudentController extends BaseController
             if (!$student) {
                 throw new \Exception('Fail to register new student');
             }
+
+
+
 
             DB::commit();
 
@@ -106,14 +128,6 @@ class StudentController extends BaseController
         }
     }
 
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -154,6 +168,7 @@ class StudentController extends BaseController
             $student->update([
                 'program_id' => $validated['program_id'],
                 'user_id' => $user->id,
+                'year_id' => $validated['year'],
                 'registration_number' => $validated['registration_number'],
                 'start_date' => $validated['start_date'],
                 'end_date' => $validated['end_date']
@@ -199,5 +214,62 @@ class StudentController extends BaseController
     public function count()
     {
         return $this->successResponse('Total departments', Student::count('id'), 200);
+    }
+    public function changeStudentPassword(StudentChangePassword $request)
+    {
+        try {
+            $validated = $request->validated();
+
+            $user = User::find($validated['user_id']);
+
+            if (!$user) {
+                throw new \Exception('User was not found');
+            }
+
+            $user->update([
+                'password' => Hash::make($validated['password']),
+            ]);
+
+            return $this->successResponse('Password changed successfully');
+
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage());
+        }
+    }
+
+
+    public function changeStudentProfile(StudentdChangeProfileRequest $request){
+
+        try {
+
+            $validated = $request->validated() ; 
+
+            $user = User::find($validated['user_id']);
+
+            if(!$user) {
+                throw new \Exception('user with that id was not found') ;
+            }
+
+            if($request->hasFile('profile')){
+
+                $profile = $request->file('profile'); 
+                $profile_name = now()->format('Ymd_His') . '_' . preg_replace('/\s+/', '_', $profile->getClientOriginalName());
+                $path = $profile->storeAs('profiles', $profile_name, 'public');
+
+                
+                
+                $user->update([
+                    'profile' => $path
+                ]);
+
+                return $this->successResponse('Student profile was updated successfully');
+            }
+
+        } catch (\Exception $e) {
+            
+
+            return $this->errorResponse($e->getMessage());
+        }
+
     }
 }

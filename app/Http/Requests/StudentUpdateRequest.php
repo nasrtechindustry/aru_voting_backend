@@ -32,6 +32,7 @@ class StudentUpdateRequest extends FormRequest
             'end_date' => 'required|date_format:Y-m-d' , 
             'email' => 'required|email',
             'phone' => 'required|digits:10' , 
+            'year' => 'required'
         ];
     }
 }

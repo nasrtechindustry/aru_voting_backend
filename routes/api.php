@@ -8,7 +8,7 @@ use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DepartmentController;
-
+use App\Http\Controllers\YearController;
 
 // FOR AUTHENTICATION
 Route::prefix('auth')->group(function () {
@@ -20,12 +20,18 @@ Route::prefix('auth')->group(function () {
 });
 
 
+
 // FOR API AUTH
 Route::middleware('auth:sanctum')->group(function () {
+    
     Route::apiResource('schools', SchoolController::class);
     Route::apiResource('departments', DepartmentController::class);
     Route::apiResource('programs', ProgramController::class);
     Route::apiResource('students', StudentController::class);
+    Route::get('year-of-studies' , [YearController::class , 'index']);
+    Route::patch('change-student-password' , [StudentController::class , 'changeStudentPassword']);
+    Route::post('change-student-profile' , [StudentController::class , 'changeStudentProfile']);
+    
 
     // FOR STATISTICS & METRICS
     Route::prefix('metrics')->group(function () {

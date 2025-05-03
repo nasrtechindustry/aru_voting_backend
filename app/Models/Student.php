@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
@@ -18,9 +19,10 @@ class Student extends Model
         'registration_number',
         'start_date',
         'end_date',
+        'year_id'
     ];
 
-    protected $appends = ['full_name'];
+    protected $appends = ['full_name' , 'is_graduated' , 'profile'];
 
 
     public function getFullNameAttribute()
@@ -28,6 +30,16 @@ class Student extends Model
         return $this->user->first_name . ' ' . $this->user->middle_name . ' ' . $this->user->last_name;
     }
 
+
+    public function getIsGraduatedAttribute()
+    {
+        return Carbon::now()->greaterThan(Carbon::createFromDate($this->end_date, 12, 31));
+
+    }
+
+    public function getProfileAttribute() {
+        return $this->user->profile;
+    }
 
     public function program()
     {
@@ -37,5 +49,10 @@ class Student extends Model
     public  function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function year()
+    {
+        return $this->belongsTo(Year::class);
     }
 }

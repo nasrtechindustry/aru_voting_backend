@@ -21,9 +21,10 @@ return new class extends Migration
                 ->nullable()->constrained('users')
                 ->onDelete('cascade')
                 ->onUpdate('no action');
+            $table->foreignId('year_id')->nullable()->constrained('years')->onDelete('cascade');
             $table->string('registration_number')->nullable();
-            $table->timestamp('start_date')->nullable();    
-            $table->timestamp('end_date')->nullable();    
+            $table->timestamp('start_date')->nullable();
+            $table->timestamp('end_date')->nullable();
             $table->timestamps();
         });
     }

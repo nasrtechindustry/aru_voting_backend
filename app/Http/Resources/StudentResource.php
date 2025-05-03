@@ -2,8 +2,9 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class StudentResource extends JsonResource
@@ -24,6 +25,7 @@ class StudentResource extends JsonResource
             'last_name' => $this->user->last_name,
             'email' => $this->user->email,
             'phone' => $this->user->phone,
+            'profile' => asset('storage/'.$this->profile), 
             'start_date' => Carbon::parse($this->start_date)->toIso8601String(),
             'end_date' => Carbon::parse($this->end_date)->toIso8601String(),
             'full_name' => $this->full_name,
@@ -31,6 +33,8 @@ class StudentResource extends JsonResource
             'program_name' => $this->program->program_name,
             'department_name' => $this->program->department->department_name,
             'school_name' => $this->program->department->school->school_name,
+            'year' => $this->year->year_of_study , 
+            'is_graduated' => $this->is_graduated
         ];
     }
 }

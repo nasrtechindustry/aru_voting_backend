@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StudentImportRequest extends FormRequest
+class StudentChangePassword extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,8 @@ class StudentImportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "program_id" => 'required|exists:programs,id' , 
-            'start_date' => 'required|date_format:Y-m-d' , 
-            'year' => 'required',
-            'end_date' => 'required|date_format:Y-m-d' , 
-            'students' => 'required|mimes:xlsx,xls'
+            'user_id' => 'required' , 
+            'password' => 'required'
         ];
     }
 }

@@ -45,6 +45,7 @@ class StudentSeeder extends Seeder
             [
                 'program_id' => $program->id ?? 1,
                 'user_id' => $user->id ?? 2,
+                'year_id' => 2 , 
                 'registration_number' => '30326/T.2023',
                 'start_date' => Carbon::parse('2023-06-20'),
                 'end_date' => Carbon::parse('2026-07-20')
