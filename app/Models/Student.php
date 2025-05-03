@@ -38,7 +38,7 @@ class Student extends Model
     }
 
     public function getProfileAttribute() {
-        return $this->user->profile;
+        return $this->user->profile ? asset('storage/'.$this->user->profile) : asset('images/image.png');
     }
 
     public function program()

@@ -25,7 +25,7 @@ class StudentResource extends JsonResource
             'last_name' => $this->user->last_name,
             'email' => $this->user->email,
             'phone' => $this->user->phone,
-            'profile' => asset('storage/'.$this->profile), 
+            'profile' => $this->profile, 
             'start_date' => Carbon::parse($this->start_date)->toIso8601String(),
             'end_date' => Carbon::parse($this->end_date)->toIso8601String(),
             'full_name' => $this->full_name,
@@ -33,7 +33,7 @@ class StudentResource extends JsonResource
             'program_name' => $this->program->program_name,
             'department_name' => $this->program->department->department_name,
             'school_name' => $this->program->department->school->school_name,
-            'year' => $this->year->year_of_study , 
+            'year' => $this->year->year_of_study ?? '', 
             'is_graduated' => $this->is_graduated
         ];
     }
