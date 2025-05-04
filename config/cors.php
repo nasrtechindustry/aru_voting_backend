@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:5173', 'https://www.nasrtech.store'],
+    'allowed_origins' => ['http://localhost:5173', 'https://www.nasrtech.store', 'https://noble-renewal-production.up.railway.app'],
 
     'allowed_origins_patterns' => [],
 
